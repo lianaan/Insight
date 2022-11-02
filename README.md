@@ -13,7 +13,7 @@ This package has been tested on macOS Monterey (12.5.1) with the following:
 
 ## Demo and instructions for use: Data
 
-We have datasets from Exp. 1 and Exp. 2 as `alldata_E1.mat` and respectively `alldata_E2.mat`, which are Nsubj * Ncond. Nsubj is 22 for each, but for demo we will show 1 participants from Exp. 2, stored in `alldata_demo_E2.mat`. There are 4 conditions, combined such that they are in the following order: 
+We have datasets from Exp. 1 and Exp. 2 as `alldata_E1.mat` and respectively `alldata_E2.mat`, which are Nsubj * Ncond. Nsubj is 22 for each, but for demo we will show the data of 1 participant from Exp. 2, stored in `alldata_demo_E2.mat`. There are 4 conditions, combined such that they are in the following order: 
 
 - No-Adapt-See
 - No-Adapt-Believe
