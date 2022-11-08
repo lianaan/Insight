@@ -61,12 +61,13 @@ elseif exp_i == 2 & (model_pred | model_pred_bm)
         end
     end
     
-    load('params_bm_allV_E2.mat') % for model 1
+    load(['params_all_models_E2_Nsubj_', num2str(Nsubj), '.mat'])
+    params_bm_all = squeeze(params_fit_best_all(:,mi,:,:));
+    params_bm_allV = params_bm_all;
+    params_bm_allV(:,:,2) =  exp(params_bm_all(:,:,2));% params_bm_all(:,:,2);
     
-    params_bm_all = params_bm_allV;
-    params_bm_allV(:,:,2) =  params_bm_all(:,:,2); %exp(params_bm_all(:,:,2));
-    params_bm_allV(:,:,3) = params_bm_all(:,:,3);
-    params_bm_allV(:,:,4)= params_bm_all(:,:,4);
+    
+    
 end
 
 if model_pred_bm
