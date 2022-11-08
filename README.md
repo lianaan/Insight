@@ -35,6 +35,8 @@ All analyses were performed on the `alldata` structs. For each subject and condi
 
 - To fit the psychometric curves with the lapse parameter shared across the 4 conditions, we used the function `psych_curve_fitting_offline_m2.m`, which uses grid search for optimization and calls  `loglike.m`, which calls `function_psi.m`.
 
-- We fit the 5 Bayesian model variants via `fitting_exp_alll.m`. This script is ready to run in the demo version. It calls  `Fitting_model.m`, which finds the parameters that maximize the probability of the data (likelihood) given each model via `Loglike_bm_alll.m`. 
+- We fit the 5 Bayesian model variants via `fitting_exp_alll.m`. This script is ready to run in the demo version; here the results will be saved as `params_all_models_E2_Nsubj_1.mat`.`fitting_exp_alll.m`  calls  `Fitting_model.m`, which finds the parameters that maximize the probability of the data (likelihood) given each model via `Loglike_bm_alll.m`.  `Fitting_model.m` loads the data, here `alldata_demo_E2.mat`, as well as the psychometric curve fits, here `params_psych_curves_demo_exp2_m1_m2_all.mat`.
 
-- `analysis_all.m` outputs the main data figures from our manuscript. To overlay the model predictions on top of the data, it calls `Predict_bm_alll.m`. This script will only be able to run once we make the full datasets available. 
+- `analysis_all.m` outputs the main data figures from our manuscript. To overlay the model predictions on top of the data, it calls `Predict_bm_alll.m`. It loads the entire dataset, psychometric curve fits and Bayesian model fits. This script will only be able to run once we make the full datasets available. 
+
+- `regressions_pupilAlll.m` generates Figure 6 from our paper (once the full dataset will be made available).
