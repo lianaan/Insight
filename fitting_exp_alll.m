@@ -34,7 +34,7 @@ for si = 1:length(indi_sel)
 end
 %}
 %% load the values saved from simulations, and save them
-for si = 1:length(indi_sel) %8:10%4:7 % length(indi_sel)
+for si = 1:length(indi_sel) 
     sbji = indi_sel(si);
     for modi = 1:5
         %[params_fit_si_ci, nll_si_ci, params_fit, nll, params_fit_best, nll_both] = Fitting_models_all_online(sbji,modi);
@@ -63,5 +63,7 @@ for si = 1:length(indi_sel) %8:10%4:7 % length(indi_sel)
         end
     end
 end
+%%
+save(['params_all_models_E2_Nsubj_', num2str(size(nll_sum_all,1)), '.mat'],'AIC_all', 'BIC_all','nll_sum_all','nll_all', 'nll_si_ci_all', 'params_fit_best_all','params_fit_si_ci_all', '-mat' )
 
 
