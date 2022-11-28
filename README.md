@@ -1,7 +1,8 @@
 # Insight
 This repository accompanies the following paper, currently under review:
- [Mihali, A, Broeker, M, Ragalmuto, F, Horga, G. Introspective inference counteracts perceptual distortion, 2022, bioRxiv](https://www.biorxiv.org/content/10.1101/2021.11.13.468497v4)
- This repositories contains demo data and analysis and modeling code. We do not provide the experimental code here for now, but mention that to implement the spiral stimuli we adapted the implementation of [Peter Scarfe's Contrast Modulated Spiral](https://peterscarfe.com/contrastModulatedSpiral.html).
+ [Mihali, A, Broeker, M, Ragalmuto, F, Horga, G. Introspective inference counteracts perceptual distortion, 2022, bioRxiv](https://www.biorxiv.org/content/10.1101/2021.11.13.468497v4).
+ 
+ This repository contains demo data and analysis and modeling code. We do not provide the experimental code here for now, but mention that to implement the spiral stimuli we adapted the implementation of [Peter Scarfe's Contrast Modulated Spiral](https://peterscarfe.com/contrastModulatedSpiral.html).
 
 ## Software requirements
 
