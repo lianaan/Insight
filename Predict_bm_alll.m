@@ -1,4 +1,4 @@
-loadfunction prc = Predict_bm_alll(params,s, resp,conf,modi, mi,N_samp)
+function prc = Predict_bm_alll(params,s, resp,conf,modi, mi,N_samp)
 if modi == 1
     mu_A_encode = params(1); % bias of the measurement, could be 0
     sigma_s = exp(params(2)); % sensory noise
