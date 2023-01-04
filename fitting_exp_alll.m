@@ -2,6 +2,7 @@ clear all; close all;
 indi_sel = [1];
 exp_i = 2;
 
+Nsubj = length(indi_sel);
 Ncond = 4;
 N_sp = 14;
 params_fit_si_ci_all = NaN(length(indi_sel), 5, Ncond, N_sp, 5);
@@ -64,6 +65,6 @@ for si = 1:length(indi_sel)
     end
 end
 %%
-save(['params_all_models_E2_Nsubj_', num2str(size(nll_sum_all,1)), '.mat'],'AIC_all', 'BIC_all','nll_sum_all','nll_all', 'nll_si_ci_all', 'params_fit_best_all','params_fit_si_ci_all', '-mat' )
+save(['params_all_models_E2_Nsubj_', num2str(Nsubj), '.mat'],'AIC_all', 'BIC_all','nll_sum_all','nll_all', 'nll_si_ci_all', 'params_fit_best_all','params_fit_si_ci_all', '-mat' )
 
 
