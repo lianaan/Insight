@@ -7,10 +7,10 @@ colorz_shade = (colorz + 3*repmat([228 228 228], 4, 1)/255)/4;
 marginsa = [0.08 0.03 0.06 0.1]; %MARGINS = [LEFT RIGHT BOTTOM TOP]
 guttera = [0.03 0.06];
 
-load('params_and_model_comp_all_E1.mat')
+
+load('params_all_models6_E2_Nsubj_22.mat')
 load('alldata_E2.mat')
-load('params_psych_curves_exp2_m1_m2_all.mat')
-load('params_all_models_E2_Nsubj_22.mat')
+load('params_psych_curves_m1_m2_all.mat')
 load('dv_val_mat.mat')
 load('stims_set_load.mat')
 stims = stims_set_load; % always same order
@@ -25,9 +25,9 @@ for j = 1:nbinz
 end
 
 binz = [min(stims)*1.001 binz ];
-binz_posE = (binz(2:end)+binz(1:end-1))/2; 
+binz_posE = (binz(2:end)+binz(1:end-1))/2;
 
-stim_off_ts = 1035+3036+1035; 
+stim_off_ts = 1035+3036+1035;
 stim_on_ts = 1035+3036; % RT is counted from stimulus on
 
 adaptor_on_ts = 1035;
@@ -38,7 +38,7 @@ window_len = 500;
 window_start_post = 2000;
 
 for sbji = 1: Nsubj
-
+    
     data = alldata(sbji,:);
     
     if sbji<11
@@ -61,20 +61,20 @@ for sbji = 1: Nsubj
     
     for ci = 1:Ncond
         for ti = 1:Ntrials
-           
+            
             pupil_all_tr_condE(ci,ti,1:1:end) = squeeze(pupil_all_tr_cond_div_by_max(ci,ti,:));
-    
+            
             time_post_stim_1 = stim_on_ts+window_start_post;
             time_post_stim_1_all(sbji,ci,ti) = time_post_stim_1;
-            if  time_post_stim_1+window_len-window_start_post<12000 
+            if  time_post_stim_1+window_len-window_start_post<12000
                 pupil_post_stim(sbji,ci,ti) = nanmedian(squeeze(pupil_all_tr_condE(ci,ti,time_post_stim_1:1:(time_post_stim_1+window_len))));
             else
                 pupil_post_stim(sbji,ci,ti) = NaN;
             end
-             
+            
             time_pre_stim_1 = adaptor_on_ts+window_start_post;
             time_pre_stim_1_all(sbji,ci,ti) = time_pre_stim_1;
-            if  time_pre_stim_1+window_len-window_start_post<12000 
+            if  time_pre_stim_1+window_len-window_start_post<12000
                 pupil_pre_stim(sbji,ci,ti) = nanmedian(squeeze(pupil_all_tr_condE(ci,ti,time_pre_stim_1:1:(time_pre_stim_1+window_len))));
             else
                 pupil_pre_stim(sbji,ci,ti) = NaN;
@@ -95,7 +95,7 @@ for sbji = 1: Nsubj
             else
                 pupil_pre_resp(sbji,ci,ti) = NaN;
             end
-
+            
         end
         
         rt_all_tr(sbji,ci,:) = data(1,ci).resp_times;
@@ -107,10 +107,10 @@ for sbji = 1: Nsubj
     paramz =  squeeze(params_psych_m2_all(sbji,:,:));
     
     for ci = 1:4
-      
+        
         bin_dist = binz(3)-binz(2);
         binz_rel = [paramz(ci,1) - 5.5* bin_dist+ [0:1:11]*bin_dist];
-        binzz_saved_rel(sbji,ci,1:12) = binz_rel; 
+        binzz_saved_rel(sbji,ci,1:12) = binz_rel;
         for j = 1:(nbinz)
             indi = find(data(1,ci).stims>binz(j) & data(1,ci).stims<=binz(j+1) );
             if length(indi)>0
@@ -145,7 +145,7 @@ end
 
 ts_length0 = 7200;
 ts_length = 7200;
-ts_bef = 4500; 
+ts_bef = 4500;
 ts_aft = 2000; ts_sell = ts_bef+ts_aft+1;
 
 sigma_means = mean(params_psych_m2_all(:,:,2));
@@ -153,15 +153,15 @@ sigma_meansE = mean(reshape(params_psych_m2_all(:,:,2), Nsubj*Ncond,1));
 
 
 for si = 1:Nsubj
-   
+    
     data = alldata(si,:);
-
+    
     paramz =  squeeze(params_psych_m2_all(si,:,:));
     
     for ci = 1:Ncond
         
-        indi_high_conf = data(1,ci).conf == 1; 
-        indi_low_conf = data(1,ci).conf == 0; 
+        indi_high_conf = data(1,ci).conf == 1;
+        indi_low_conf = data(1,ci).conf == 0;
         
         number_of_low_conf_trials(si,ci) = sum(indi_low_conf);
         
@@ -194,7 +194,7 @@ for si = 1:Nsubj
         avg_pupil_trace_all(si,ci,1:ts_length) = nanmedian(va_all);
         avg_pupil_trace_all_r_locked(si,ci,1:(ts_bef+ts_aft+1)) = nanmedian(va_all_r_locked);
         
-
+        
     end
 end
 
@@ -221,7 +221,7 @@ fontsz = 12;
 time_sel = 1:1: ts_length;
 
 
-h = figure(1)
+h = figure(6)
 set(gcf, 'Position', [100 100 800 650])
 guttera = [0.08 0.09];
 marginsa = [0.0800    0.1000    0.1400    0.1000];
@@ -243,7 +243,7 @@ for ci = 1:4
     set(gca, 'tickdir', 'out')
     xlim([0 ts_length])
     box off
-
+    
 end
 plot(1:1:ts_end, zeros(1,ts_end), '-', 'Color', 'k'); hold on;
 plot((1000)*ones(1,100), linspace(-200,1200,100), '--','Color', [0.5 0.5 0.5],'Linewidth',linewi ); hold on;
@@ -253,7 +253,7 @@ box off
 set(gca, 'tickdir', 'out')
 set(gca, 'FontSize', fontsz)
 set(gca, 'ticklength',[tlen1 tlen2])
-xlim([0 7001]) 
+xlim([0 7001])
 ylim([-0.05 0.6])
 ylabel('pupil area (a.u.)', 'FontName', 'Helvetica', 'FontSize', fontsz)
 xlabel('time (ms)',  'FontName', 'Helvetica', 'FontSize', fontsz)
@@ -262,7 +262,7 @@ ts_len_r = 1:1:(ts_bef+ts_aft+1);
 
 %%
 
-tlen1 = 0.024; 
+tlen1 = 0.024;
 tlen2 = 0.024;
 tight_subplot(4,7, 1,[ 6 7], guttera, marginsa)
 x_fill1 = linspace((ts_bef+500+1), (ts_bef+500+1+window_sel), Npts_fill);
@@ -294,7 +294,7 @@ xlabel('time (ms)',  'FontName', 'Helvetica', 'FontSize', fontsz)
 
 %%
 
-figure(1)
+figure(6)
 set(gcf, 'Position', [100 100 800 650])
 time_sel_ci = (1035+0):1: ts_length;
 time_sel_ci_1 = 1:1: length(time_sel_ci);
@@ -305,7 +305,8 @@ marginsa_s = marginsa;
 eb_w = 0.4;%errorbar width
 eb_t = 0.5; %errorbar line thickness
 lw = 1.3; % line width
-msz_all = [5.5 5.5 5.5 5.5];
+%msz_all = [5.5 5.5 5.5 5.5];
+msz_all = [3.5 3.5 3.5 3.5];
 
 y_max_bars = 0.38;
 
@@ -317,12 +318,24 @@ pink_interval = (stim_on_ts+ window_start_post):1:(stim_on_ts+ window_start_post
 indi_sel = 1:1:22;
 
 
+pupil_all_post_stim_SAVED = pupil_all_post_stim;
+grand_average = nanmean(pupil_all_post_stim_SAVED(:));
+for si = 1: Nsubj
+    pupil_all_sj = squeeze(pupil_all_post_stim_SAVED(si,:,:));
+    subj_average(si) = nanmean(pupil_all_sj(:));
+    for ci = 1:Ncond
+        
+        pupil_all_post_stim(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_stim_SAVED(si,ci,:))', subj_average(si)) + grand_average;
+        
+    end
+end
+%}
 tight_subplot(4,9, 2,[4 5], [guttera_s(1) guttera2(2)], marginsa2)
 x_fill1 = linspace(-0.4, 0.4, Npts_fill);
 fill([x_fill1,x_fill1(end:-1:1)],  [-0.1*ones(1,Npts_fill) fliplr(0.5*ones(1,Npts_fill))], colorz_pink_shade, 'EdgeColor', 'None'); hold on;
 
 for  ci = 1:Ncond
- 
+    
     h(ci)  = plot(binz_posE, nanmean(squeeze(pupil_all_post_stim(indi_sel,ci,:)),1),'o-','Color',colorz(ci,:), 'MarkerSize', msz_all(ci),'MarkerFaceColor', colorz(ci,:), 'MarkerEdgeColor', colorz(ci,:), 'Linewidth',linewi ); hold on;
     errorbar(binz_posE, nanmean(squeeze(pupil_all_post_stim(indi_sel,ci,:)),1), nanstd(squeeze(pupil_all_post_stim(indi_sel,ci,:)),1)/sqrt(length(indi_sel)), 'Color',  colorz(ci,:),'Linestyle', 'none','Linewidth',1.5,'CapSize',0); hold on;
     
@@ -344,6 +357,7 @@ set(gca, 'xtick', [-0.3:0.1:0.3])
 ylabel('pupil area (a.u.)', 'FontName', 'Helvetica', 'FontSize', fontsz)
 xlabel('test stimulus speed clockwise (a.u.)',  'FontName', 'Helvetica', 'FontSize', fontsz)
 ylim([0.00 0.25])
+%ylim([-0.05 0.35])
 
 
 
@@ -362,6 +376,24 @@ indi_sel = 1:1:22;
 tight_subplot(4,9, 2,[8 9], [guttera_s(1) guttera2(2)], marginsa2)
 x_fill1 = linspace(-0.4, 0.4, Npts_fill);
 fill([x_fill1,x_fill1(end:-1:1)],  [0*ones(1,Npts_fill) fliplr(0.4*ones(1,Npts_fill))], colorz_yellow_shade, 'EdgeColor', 'None'); hold on;
+
+pupil_all_post_resp_SAVED = pupil_all_post_resp;
+grand_averageE = nanmean(pupil_all_post_resp_SAVED(:));
+for si = 1: Nsubj
+    pupil_all_sjE = squeeze(pupil_all_post_resp_SAVED(si,:,:));
+    subj_averageE(si) = nanmean(pupil_all_sjE(:));
+    for ci = 1:Ncond
+        %new value = old value ? subject average + grand average
+        % first thing we did was with subject average within condition and
+        %grand average within condition---what if we were to do across all
+        %conditions????
+        
+        %pupil_all_post_stim(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_stim_SAVED(si,ci,:))', nanmean(squeeze(pupil_all_post_stim(si,ci,:)))) + nanmean(squeeze(pupil_all_post_stim(:,ci,:)));
+        
+        pupil_all_post_resp(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_resp_SAVED(si,ci,:))', subj_averageE(si)) + grand_averageE;
+        %this one does not seem to do anything
+    end
+end
 
 for  ci = 1:Ncond
     
@@ -386,6 +418,85 @@ set(gca, 'ytick', [0:0.1:0.4])
 set(gca, 'xtick', [-0.3:0.1:0.3])
 ylim([0 0.25])
 
+
+%%
+psname = 'pupil_fig_new_error_barsE.pdf'
+%print_pdf(psname)
+
+%% two way repeated measures anova
+clear vals; clear group; clear y;
+vals = [];
+
+for ji = 1:nbinz
+    %vals = [vals; squeeze(pupil_all_post_stim_SAVED(:,3,ji)); squeeze(pupil_all_post_stim_SAVED(:,4,ji))];
+    vals = [vals; squeeze(pupil_all_post_resp_SAVED(:,3,ji)); squeeze(pupil_all_post_resp_SAVED(:,4,ji))];% Adapt-See vs Adapt-Believe
+end
+
+Subjects = repmat([1:Nsubj],1,2*nbinz);%[[1:Nsubj] [1:Nsubj]];
+%evidence, then Adapt-See vs Adapt-Believe
+
+group = [[ones(1,(2*Nsubj)) 2*ones(1,(2*Nsubj)) 3*ones(1,(2*Nsubj)) 4*ones(1,(2*Nsubj)) 5* ones(1,(2*Nsubj))...
+    6*ones(1,(2*Nsubj)) 7*ones(1,(2*Nsubj)) 8*ones(1,(2*Nsubj)) 9*ones(1,(2*Nsubj)) 10* ones(1,(2*Nsubj)) 11* ones(1,(2*Nsubj)) ]' ...
+    [repmat([ones(1,Nsubj) 2*ones(1,Nsubj)],1,nbinz)]'];
+
+y = vals;
+
+g1 = group(:,1);
+g2 = group(:,2);
+
+[p,table,stats] = anovan(y,{g1,g2, Subjects}, 'random',3,'varnames', {'Evidence', 'Adapt_See_Vs_Adapt_Bel', 'Subject'});
+[p_full,table_full,stats_full] = anovan(y,{g1,g2, Subjects}, 'random',3,'varnames', {'Evidence',  'Adapt_See_Vs_Adapt_Bel', 'Subject'}, 'model', 'full');
+
+[p,table,stats] = anovan(y,{g1,g2}, 'random',2,'varnames', {'Evidence', 'Adapt_See_Vs_Adapt_Bel'}, 'model', 'full');
+%%
+
+varNames = cell(2*nbinz,1);
+for i = 1 : 2*nbinz
+    v = strcat('V',num2str(i));
+    varNames{i,1} = v;
+end
+
+c1 = cell(1,11);
+c1{1} = 'A'; c1{2} = 'B'; c1{3} = 'C'; c1{4} = 'D';  c1{5} = 'E'; c1{6} = 'F'; c1{7} = 'G'; c1{8} = 'H';
+c1{9} = 'I'; c1{10} = 'J'; c1{11} = 'K';
+
+for g1i = 1:nbinz
+    g1_ra([2*g1i-1],1) = c1{g1i};
+    g1_ra([2*g1i],1) = c1{g1i};
+end
+c2 = cell(1,2);
+c2{1} = 'S'; c2{2} = 'B';
+for g2i = 1:nbinz
+    g2_ra([2*g2i-1],1)  = c2{1};
+    g2_ra([2*g2i],1)  = c2{2};
+end
+y_ranova = [];
+for vi = 1:22
+    y_ranova = [y_ranova vals([22*(vi-1)+1:22*(vi-1)+22])]
+end
+
+pupil_area = array2table(y_ranova, 'VariableNames',varNames);
+factorNames = {'Evidence', 'Adapt_See_Vs_Adapt_Bel'};
+within = array2table([g1_ra g2_ra], 'VariableNames', factorNames);
+
+
+
+rm = fitrm(pupil_area,'V1-V22~1','WithinDesign',within);
+[ranovatblb] = ranova(rm, 'WithinModel','Evidence*Adapt_See_Vs_Adapt_Bel');
+
+%Mrm1 = multcompare(rm,'Evidence','By','Adapt_See_Vs_Adapt_Bel','ComparisonType','dunn-sidak');
+
+
+withins2 = within;
+withins2.Evidence = categorical(withins2.Evidence);
+withins2.Adapt_See_Vs_Adapt_Bel = categorical(withins2.Adapt_See_Vs_Adapt_Bel);
+
+
+psname = 'avg_traces_across_all_version_sigma_min_set_0035_diff_sigma_max_set_012_EE.pdf'
+%print_pdf(psname)
+
+%}
+%}
 
 %%
 
@@ -432,7 +543,7 @@ end
 
 %%
 
-figure(1)
+figure(6)
 set(gcf, 'Position', [100 100 800 650])
 
 window_len_sliding = 200;
@@ -490,7 +601,7 @@ for wi = 1 : number_of_wi-1
     end
     
 end
-xlim([0 7001]) 
+xlim([0 7001])
 ylim([-10 10])
 set(gca, 'ytick', [-10:5:10])
 set(gca, 'tickdir', 'out')
@@ -535,7 +646,7 @@ for wi = 1 : number_of_wi-1
     end
     
 end
-xlim([0 7001]) 
+xlim([0 7001])
 ylim([-10 10])
 set(gca, 'ytick', [-10:5:10])
 set(gca, 'tickdir', 'out')
@@ -616,7 +727,7 @@ if stim_locked
     plot((1000+3000)*ones(1,100), linspace(-200,1200,100), '--k','Linewidth',2 ); hold on;
     plot((1000+3000+1000)*ones(1,100), linspace(-200,1200,100), '--k','Linewidth',linewi ); hold on;
 elseif resp_locked
-    plot((ts_bef+1)*ones(1,100), linspace(-10,40,100), '--k','Linewidth',linewi ); hold on; 
+    plot((ts_bef+1)*ones(1,100), linspace(-10,40,100), '--k','Linewidth',linewi ); hold on;
 end
 box off
 
@@ -704,7 +815,7 @@ set(gca, 'ticklength', [tlen1 tlen2])
 psname = 'Fig6_pupil_ALL.pdf';
 
 
-%% Pupil models 
+%% Pupil models
 %fitlme
 % pupil_post_stim ---> Nsubj*4*121
 %pupil_valz = pupil_post_stim;
@@ -731,7 +842,7 @@ for i = 1: Nsubj
     dec_var_for_lme = [dec_var_for_lme; squeeze(abs(dv_val(i,1,:))); squeeze(abs(dv_val(i,2,:))); squeeze(abs(dv_val(i,3,:))); squeeze(abs(dv_val(i,4,:)))];
     conf_for_lme = [conf_for_lme; squeeze(cf_all_tr(i,1,:)); squeeze(cf_all_tr(i,2,:));...
         squeeze(cf_all_tr(i,3,:)); squeeze(cf_all_tr(i,4,:))];
-
+    
 end
 
 [~, ~, stim_strength_for_lme_ranking] = unique(stim_strength_for_lme);
@@ -787,7 +898,7 @@ for i = 1: Nsubj
     rt_for_lme = [rt_for_lme; squeeze(rt_all_tr(i,3,:)); squeeze(rt_all_tr(i,4,:))];
     dec_var_for_lme = [dec_var_for_lme; squeeze(abs(dv_val(i,3,:))); squeeze(abs(dv_val(i,4,:)))];
     conf_for_lme = [conf_for_lme; squeeze(cf_all_tr(i,3,:)); squeeze(cf_all_tr(i,4,:))];
-
+    
 end
 
 [~, ~, stim_strength_for_lme_ranking] = unique(stim_strength_for_lme);
