@@ -20,7 +20,7 @@ elseif modi == 3
     prob_right = params(3); %0.5;
     bd = params(4); % k_confidence
     mu_A_decide = params(5); % mu likelihood
-elseif modi == 4
+elseif (modi == 4) | (modi == 6)
     mu_A_encode = params(1); % bias of the measurement, could be 0
     sigma_s = exp(params(2)); % sensory noise
     prob_right = 0.5;
@@ -47,6 +47,7 @@ stims        =  repmat(s', [1,  N_samp]);
 % the center of the measurement is offset to stims-mu_A, mu_A could be 0
 x            =  normrnd(bsxfun(@minus, stims, mu_A_encode),sigma_s);
 
+if ismember(modi, [1 2 3 4 5 6])
 %decision model
 %1 stim, 2 decision variables dv1 dv2. dv2 is just 1/dv1 --derivation as in
 %Adler thesis and Adler Neural computation paper
@@ -68,25 +69,32 @@ post = bsxfun(@rdivide,post, sum(post,2)); % normalize to make sure that the 2 p
 postN = bsxfun(@rdivide,postN, sum(postN,2));
 
 
-if mi == 1
-    
-    [post_max,dd]       = max(post,[],2);
-    if ismember(modi, [1 2 3 ])
-        r_pred = abs(squeeze(dd)-2);
-    elseif ismember(modi, [4 5])
-        r_pred = dv1 > mu_R; % only for models 4 and 5, with k_choice
-    end
-    post_max = squeeze(post_max);
-    c_pred = post_max > bd;
-    
-elseif mi == 2
-    for ti = 1: Ntrials
-        for si = 1:N_samp
-            ddN(ti,si) = find(mnrnd(1, postN(ti,:,si)) == 1);
-            c_pred(ti,si) = postN(ti,ddN(ti,si),si) > bd;
+    if mi == 1
+        
+        [post_max,dd]       = max(post,[],2);
+        if ismember(modi, [1 2 3 ])
+            r_pred = abs(squeeze(dd)-2);
+        elseif ismember(modi, [4 5])
+            r_pred = dv1 > mu_R; % only for models 4 and 5, with k_choice
+        elseif modi == 6 % modify post
+            r_pred = dv1 > mu_R; 
+            post(:,1,:) = [1./(1+exp(-(dv1-mu_R)))]; 
+            post(:,2,:) = [1./(1+exp(dv1-mu_R))];
+            post = bsxfun(@rdivide,post, sum(post,2));
+            [post_max,dd]       = max(post,[],2);
         end
+        post_max = squeeze(post_max);
+        c_pred = post_max > bd;
+        
+    elseif mi == 2
+        for ti = 1: Ntrials
+            for si = 1:N_samp
+                ddN(ti,si) = find(mnrnd(1, postN(ti,:,si)) == 1);
+                c_pred(ti,si) = postN(ti,ddN(ti,si),si) > bd;
+            end
+        end
+        r_pred = abs(ddN - 2);
     end
-    r_pred = abs(ddN - 2);
 end
 
 for ti = 1:Ntrials
