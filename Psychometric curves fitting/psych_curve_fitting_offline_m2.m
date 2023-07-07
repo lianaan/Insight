@@ -11,20 +11,19 @@ lambda_range = linspace(0, 0.3,ngrid);
 load(['alldata_E',num2str(exp_i),'.mat'])
 %load(['alldata_E2ctr.mat'])
 
+n_trials = Ncond*121;
+n_pars = 2*Ncond+1;
+
  [mu_est, sigma_est] = deal(NaN(size(alldata,1),Ncond));
  lambda_est = deal(NaN(size(alldata,1),1));
 for sbji =  1: size(alldata,1)
     sbji
-    
+   
     
     data = alldata(sbji,:);
-    
-    
+        
     loglike_max_L = NaN(ngrid);
-   
-    n_trials = Ncond*121;
-    n_pars = 2*Ncond+1;
-    
+  
     for li = 1:ngrid
         lambda_val = lambda_range(li);
         for ci = 1:Ncond
