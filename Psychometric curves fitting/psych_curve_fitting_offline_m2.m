@@ -11,7 +11,7 @@ lambda_range = linspace(0, 0.3,ngrid);
 load(['alldata_E',num2str(exp_i),'.mat'])
 %load(['alldata_E2ctr.mat'])
 
- [mu_est, sigma_est, lambda_est] = deal(NaN(size(alldata,1),Ncond));
+ [mu_est, sigma_est] = deal(NaN(size(alldata,1),Ncond));
  lambda_est = deal(NaN(size(alldata,1),1));
 for sbji =  1: size(alldata,1)
     sbji
