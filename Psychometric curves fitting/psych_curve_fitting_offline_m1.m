@@ -52,6 +52,6 @@ for sbji =  1: size(alldata,1)
     AIC(sbji) = -2*loglike_max(sbji)+2*n_pars ;
     BIC(sbji) = -2*loglike_max(sbji) + n_pars* log(n_trials);
 end
-save(['psych_curves_fitting_m2_',num2str(ngrid),'_E_', num2str(exp_i),'_all.mat'], 'loglike_max', 'AIC','BIC', 'mu_est','sigma_est','lambda_est', '-mat')
+save(['psych_curves_fitting_m1_',num2str(ngrid),'_E_', num2str(exp_i),'_all.mat'], 'loglike_max', 'AIC','BIC', 'mu_est','sigma_est','lambda_est', '-mat')
 %save(['psych_curves_fitting_m1_',num2str(ngrid),'_E2ctr.mat'], 'loglike_max', 'AIC','BIC', 'mu_est','sigma_est','lambda_est', '-mat')
 
