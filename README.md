@@ -1,6 +1,6 @@
 # Insight
 This repository accompanies the following paper, currently under review:
- [Mihali, A, Broeker, M, Ragalmuto, F, Horga, G. Introspective inference counteracts perceptual distortion, 2022, bioRxiv](https://www.biorxiv.org/content/10.1101/2021.11.13.468497v4).
+ [Mihali, A, Broeker, M, Ragalmuto, F, Horga, G. Introspective inference counteracts perceptual distortion, 2023, bioRxiv]( https://www.biorxiv.org/content/10.1101/2021.11.13.468497v5).
  
  This repository contains demo data and analysis and modeling code. We do not provide the experimental code here for now, but mention that to implement the spiral stimuli we adapted the implementation of [Peter Scarfe's Contrast Modulated Spiral](https://peterscarfe.com/contrastModulatedSpiral.html).
 
@@ -43,7 +43,7 @@ We also share the data from Exp. 2 control as `alldata_E2ctr.mat`, also are Nsub
 
 ## Scripts
 - For individual model fits, full simulated datasets and fits, complement the scripts from here with the data in the corresponding folders:
-https://drive.google.com/drive/folders/1OW1x80jKBBn9jowLEeM6Y8xWxc_w7NO4?usp=drive_link
+[More on data and model fits] (https://drive.google.com/drive/folders/1OW1x80jKBBn9jowLEeM6Y8xWxc_w7NO4?usp=drive_link)
 
 - `analysis_all.m` outputs the main data figures from our manuscript. To overlay the model predictions on top of the data, it calls `Predict_bm_alll.m`. It loads the entire dataset, psychometric curve fits and Bayesian model fits. This script will only be able to run once we make the full datasets available. 
 
