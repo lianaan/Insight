@@ -37,7 +37,7 @@ All analyses were performed on the `alldata` structs. For each subject and condi
 
 ## Scripts
 - For individual model fits, full simulated datasets and fits, complement the scripts from here with the data in the corresponding folders:
-[More on data and model fits] (https://drive.google.com/drive/folders/1OW1x80jKBBn9jowLEeM6Y8xWxc_w7NO4?usp=drive_link)
+[More on data and model fits](https://drive.google.com/drive/folders/1OW1x80jKBBn9jowLEeM6Y8xWxc_w7NO4?usp=drive_link)
 
 - `analysis_all.m` outputs a large number of data figures from our manuscript: figures 3, 4 and 5 from main, figures S2, S3 from Supplementary, and, if we change the model index from mi = 1 to mi = 4, we could also get figure S6.  To overlay the model predictions on top of the data, it calls `Predict_bm_alll.m`. It loads the entire dataset, psychometric curve fits and, for exp_i = 2, Bayesian model fits. 
 
