@@ -383,15 +383,12 @@ for si = 1: Nsubj
     pupil_all_sjE = squeeze(pupil_all_post_resp_SAVED(si,:,:));
     subj_averageE(si) = nanmean(pupil_all_sjE(:));
     for ci = 1:Ncond
-        %new value = old value ? subject average + grand average
-        % first thing we did was with subject average within condition and
-        %grand average within condition---what if we were to do across all
-        %conditions????
+        % adjustment of error bars as in Cousineau 2005
         
         %pupil_all_post_stim(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_stim_SAVED(si,ci,:))', nanmean(squeeze(pupil_all_post_stim(si,ci,:)))) + nanmean(squeeze(pupil_all_post_stim(:,ci,:)));
         
         pupil_all_post_resp(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_resp_SAVED(si,ci,:))', subj_averageE(si)) + grand_averageE;
-        %this one does not seem to do anything
+       
     end
 end
 
