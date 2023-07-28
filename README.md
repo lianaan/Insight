@@ -5,12 +5,12 @@ This repository accompanies the following paper, currently under review:
  This repository contains demo data and analysis and modeling code. We do not provide the experimental code here for now, but mention that to implement the spiral stimuli we adapted the implementation of [Peter Scarfe's Contrast Modulated Spiral](https://peterscarfe.com/contrastModulatedSpiral.html).
 
 ## Software requirements
-
+ 
 This package has been tested on macOS Monterey (12.5.1) with the following:
 
 -  Matlab 9.6 (2019a, MathWorks, Massachusetts, USA) 
 
-- Alongside our Matlab scripts, please also download the [Bayesian adaptive direct search (BADS)  optimization algorithm](https://github.com/lacerbi/bads) by Luigi Acerbi.
+- We provide the output results of the Bayesian model fitting procedure. If someone wants to run our fitting scripts, please also download the [Bayesian adaptive direct search (BADS)  optimization algorithm](https://github.com/lacerbi/bads) by Luigi Acerbi.
 
 
 ## Demo and instructions for use: Data
@@ -39,7 +39,7 @@ All analyses were performed on the `alldata` structs. For each subject and condi
 - For individual model fits, full simulated datasets and fits, complement the scripts from here with the data in the corresponding folders:
 [More on data and model fits](https://drive.google.com/drive/folders/1OW1x80jKBBn9jowLEeM6Y8xWxc_w7NO4?usp=drive_link)
 
-- `analysis_all.m` outputs a large number of data figures from our manuscript: Figures 3, 4, 5 and 7 from main, Figures S2, S3 from Supplementary, and, if we change the model index from mi = 1 to mi = 4, we could also get Figure S6.  To overlay the model predictions on top of the data, it calls `Predict_bm_alll.m`. It loads the entire dataset, psychometric curve fits and, for exp_i = 2, Bayesian model fits. 
+- `analysis_all.m` outputs a large number of data figures from our manuscript: Figures 3, 4, 5 and 7 from main, Figures S2, S3 from Supplementary, and, if we change the model index from mi = 1 to mi = 4, we could also get Figure S6.  To overlay the model predictions on top of the data, it calls `Predict_bm_alll.m`. It loads the entire dataset, psychometric curve fits (`psych_curves_fitting_m2_201_E2.mat` for exp.2) and, for exp_i = 2, Bayesian model fits (`params_all_models6_E2_Nsubj_22.mat`). 
 
 ## Psychometric curve fitting
 - To fit the psychometric curves with the lapse parameter shared across the 4 conditions, we used the function `psych_curve_fitting_offline_m2.m`, which uses grid search for optimization and calls  `loglike.m`, which calls `function_psi.m`.
