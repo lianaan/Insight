@@ -176,7 +176,7 @@ for si = 1 : Nsubj
             % depends on the model, figure out which predict we use
             %Predict_bm_alll(params,s, resp,conf,modi, mi,N_samp)
             
-            prc = Predict_bm_alll(squeeze(params_bm_all(si,ci,1:4)),squeeze(binz_posE(si,ci,:))', datac(ci).resp, datac(ci).conf, mi,1,N_samp);
+            prc = Predict_bm_alll(squeeze(params_bm_all(si,ci,1:end)),squeeze(binz_posE(si,ci,:))', datac(ci).resp, datac(ci).conf, mi,1,N_samp);
             
             prop_cw_pred_all(si,mi,ci,:) = prc(:,1)+ prc(:,2);
             prop_cf_pred_all(si,mi,ci,:) = prc(:,1)+ prc(:,3);
