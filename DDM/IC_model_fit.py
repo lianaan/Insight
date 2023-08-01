@@ -1,3 +1,4 @@
+# modified from PyDDM samples
 from pyddm import Sample
 import pandas
 import os
