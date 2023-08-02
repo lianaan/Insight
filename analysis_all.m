@@ -993,7 +993,7 @@ if exp_i == 2
         
         % Bayesian model 1
         tight_subplot(5,4,1,3, guttera, marginsa)
-        mi = 1;
+        %mi = 1;
         for  ci = 1:Ncond
             if exp_i == 2
                 he(ci) = fill([mean(squeeze(binz_pos(indi_sel,ci,:)),1) mean(squeeze(binz_pos(indi_sel,ci,end:-1:1)),1)],   ...
@@ -1031,7 +1031,7 @@ msz_all = [5.5 5.5 5.5 5.5];
 
 % Bayesian model 1
 tight_subplot(5,4,1,3, guttera, marginsa)
-mi = 1;
+%mi = 1;
 for  ci = 1:Ncond
     if exp_i == 2
         he(ci) = fill([mean(squeeze(binz_pos(indi_sel,ci,:)),1) mean(squeeze(binz_pos(indi_sel,ci,end:-1:1)),1)],   ...
