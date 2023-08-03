@@ -45,7 +45,7 @@ All analyses were performed on the `alldata` structs. For each subject and condi
 - To fit the psychometric curves with the lapse parameter shared across the 4 conditions, we used the function `psych_curve_fitting_offline_m2.m`, which uses grid search for optimization and calls  `loglike.m`, which calls `function_psi.m`.
 
 ## Bayesian models fitting
-- We fit the 6 Bayesian model variants via `fitting_exp_alll.m`. This script is ready to run in the demo version; here the results will be saved as `params_all_models_E2_Nsubj_22.mat`.`fitting_exp_alll.m`  calls  `Fitting_model.m`, which finds the parameters that maximize the probability of the data (likelihood) given each model via `Loglike_bm_alll.m`.  `Fitting_model.m` loads the data, here `alldata_E2.mat`, as well as the psychometric curve fits, `params_psych_curves_exp2_m1_m2_all.mat` and outputs the best fitting parameters that maximize the likelihood of the data underthat particular model.
+- We fit the 6 Bayesian model variants via `fitting_exp_alll.m`. This script is ready to run but it takes a long time; the results will be saved as `params_all_models_E2_Nsubj_22.mat`, which we provide.`fitting_exp_alll.m`  calls  `Fitting_model.m`, which finds the parameters that maximize the probability of the data given each model (maximum likelihood estimation) via `Loglike_bm_alll.m`.  `Fitting_model.m` loads the data, here `alldata_E2.mat`, as well as the psychometric curve fits, `params_psych_curves_exp2_m1_m2_all.mat` and outputs the best fitting parameters `params_all_models_E2_Nsubj_22.mat`.
 
 ## Bayesian models simulations
 `sims_mu_like_vs_priorE.m` generates Figure S5 and `parameter_recovery_Bayesian_model_1_plot.m` generates Figure S7.
