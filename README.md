@@ -5,7 +5,7 @@ This repository accompanies the following paper, currently under review:
  This repository contains demo data and analysis and modeling code. We do not provide the experimental code here for now, but mention that to implement the spiral stimuli we adapted the implementation of [Peter Scarfe's Contrast Modulated Spiral](https://peterscarfe.com/contrastModulatedSpiral.html). 
 
 
-[Watch the video of our illusion implementation here](https://drive.google.com/file/d/1ilji0ZZn5h6dp0mwLMRirZni5ONku6PN/view?usp=sharing  ). 
+[Watch the video of our illusion implementation here](https://drive.google.com/file/d/1PPtd57ln27324gM14BaQqXUFCyQGcVSq/view?usp=sharing). 
 
 ## Software requirements
  
