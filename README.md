@@ -5,7 +5,7 @@ This repository accompanies the following paper, currently under review:
  This repository contains demo data and analysis and modeling code. We do not provide the experimental code here for now, but mention that to implement the spiral stimuli we adapted the implementation of [Peter Scarfe's Contrast Modulated Spiral](https://peterscarfe.com/contrastModulatedSpiral.html). 
 
 
-[Watch the video of our illusion implementation here](https://drive.google.com/file/d/1PPtd57ln27324gM14BaQqXUFCyQGcVSq/view?usp=sharing). 
+[Watch the video of our MAE illusion implementation here. Fixate on the center white dot (here for 15 seconds) and report the direction of motion of the spiral which appears when the central dot changes color from white to yellow.](https://drive.google.com/file/d/1PPtd57ln27324gM14BaQqXUFCyQGcVSq/view?usp=sharing)
 
 ## Software requirements
  
