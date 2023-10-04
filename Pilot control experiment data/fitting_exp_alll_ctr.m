@@ -1,6 +1,6 @@
 clear all; close all;
 
-indi_sel = 1:8%1:22;%[1];
+indi_sel = 1:7%1:22;%[1];
 exp_i = 2;
 Ntrials = 121;  
 
@@ -73,6 +73,6 @@ for si = 1:length(indi_sel)
     end
 end
 %%
-save ('nll_models_E2ctr_1_6_all.mat', 'nll_all', '-mat')
+save ('nll_models_E2ctr_1_6_Nsubj_', ', num2str(length(indi_sel)), '.mat', 'nll_all', '-mat')
 save(['params_all_models6_E2ctr_Nsubj_', num2str(length(indi_sel)), '.mat'],'AIC_all', 'BIC_all','nll_sum_all','nll_all', 'nll_si_ci_all', 'params_fit_best_all','params_fit_si_ci_all', '-mat' )
 %}
