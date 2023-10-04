@@ -65,7 +65,7 @@ All analyses were performed on the `alldata` structs. For each subject and condi
   
 ## Pilot control experiment data
 
-- We also share the data from Exp. 2 control, which we used to generate Figure S9. This is `alldata_E2ctr.mat`, which is also Nsubj * Ncond, with Nsubj being 8. There are 4 conditions: 
+- We also share the data from Exp. 2 control, which we used to generate Figure S9. This is `alldata_E2ctr.mat`, which is also Nsubj * Ncond, with Nsubj being 7. There are 4 conditions: 
 
 - 1: No-Adapt-See 
 - 2: No-Adapt-Bias
