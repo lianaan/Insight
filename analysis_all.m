@@ -19,13 +19,13 @@ if exp_i == 1
     model_pred = 1;
     model_pred_bm = 0;
 elseif exp_i == 2
-    mi = 1;  % select the model
-    % mi = 1: Bayesian insight model
-    % mi = 2: prior model
-    % mi = 3: insight + prior model
-    % mi = 4: response bias k_choice model
-    % mi = 5: response bias + insight model
-    % mi = 6: response bias k_choice_and_confidence model
+    %mi  select the model
+     mi = 1; %Bayesian insight model
+    % mi = 2: %prior model
+    % mi = 3: %insight + prior model
+    % mi = 4: %response bias k_choice model
+    % mi = 5: % %response bias + insight model
+    % mi = 6: %response bias k_choice_and_confidence model
     model_pred = 1;
     model_pred_bm = 1;
 end
@@ -335,14 +335,23 @@ if exp_i == 1 | exp_i == 2 % show median and 95% bootstrapped confidence interva
     end
 end
 
-compensation = -(squeeze(params_psych_m2_all(:,3,1))-squeeze(params_psych_m2_all(:,4,1)));
+[p,h, stats] = signrank(params_psych_m2_all(:,3,1), params_psych_m2_all(:,1,1));
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sr(params_psych_m2_all(:,3,1),params_psych_m2_all(:,1,1),0.05,100000);
+%sig_level = 0.05, numBootstraps= 100000
+% report bias-corrected and accelerated values : CI
 
+compensation = -(squeeze(params_psych_m2_all(:,3,1))-squeeze(params_psych_m2_all(:,4,1)));
 [p,h, stats] = signrank(compensation(indi_sel))
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sr(compensation(indi_sel),ones(22,1),0.05,100000);
+
+
 compensation_baseline = (squeeze(params_psych_m2_all(:,1,1))-squeeze(params_psych_m2_all(:,2,1)));
 [p,h] = signrank(compensation_baseline(indi_sel));
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sr(compensation_baselin(indi_sel),ones(22,1),0.05,100000);
 
 compensation_norm = compensation./abs(squeeze(params_psych_m2_all(:,3,1)))
 [p, h, stats ]= signrank(compensation_norm(indi_sel)-1);
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sr(compensation_norm(indi_sel),ones(22,1),0.05,100000);
 
 mid_green = (colorz(1,:)+colorz(2,:))/2;
 mid_blue = (colorz(3,:)+colorz(4,:))/2;
@@ -485,11 +494,17 @@ psname = ['Corrs_btwn_mu_based_on_peaks_averaged_exp_', num2str(exp_i), '.pdf']
 mus_psych = squeeze(params_psych_m2_all(:,:, 1));
 % cond 3:
 [p,h] = signrank(mus_psych(:,3),  mu_cf_fit_all(:,3)); % 0.49
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(mus_psych(:,3),mu_cf_fit_all(:,3),0.05,100000)
+
 [p,h] = signrank(mus_psych(:,3),  mu_rt_fit_all(:,3)); % 0.98
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(mus_psych(:,3),mu_rt_fit_all(:,3),0.05,100000)
 
 % cond 4:
 [p,h] = signrank(mus_psych(:,4),  mu_cf_fit_all(:,4)); % 0.306
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(mus_psych(:,4),mu_cf_fit_all(:,4),0.05,100000)
+
 [p,h] = signrank(mus_psych(:,4),  mu_rt_fit_all(:,4)); % 0.92
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(mus_psych(:,4),mu_rt_fit_all(:,4),0.05,100000)
 
 for ci = 1:4
     [p_mus_ci_psych_cf(ci),h] = signrank(mus_psych(:,ci),  mu_cf_fit_all(:,ci));%signrank(mus_psych(:,ci),  mu_cf_fit_all(:,ci));
@@ -508,8 +523,6 @@ linewi = 1;%1.1;%0.9;
 sz_dot = 2;
 dashed_linez = 0;
 
-%indi_sel = 1:1:Nsubj;%[5 6 7 8 9 10];%[1 2 5 6  9 10];%1: 1: Nsubj;% [1 2 4 5 8 9 10 ];%1: 1: Nsubj;
-% AGGREGATE DATA FROM EXP 1
 
 nboot = 5000;
 
@@ -1288,15 +1301,19 @@ psname = ['Fig5_parts_June2023_exp_',num2str(exp_i) ,'_Nsubj_',num2str(Nsubj),'.
 delta_mu_lik = squeeze(params_bm_all(:,4,4))- squeeze(params_bm_all(:,3,4))
 [r,p] = corr( compensation, delta_mu_lik, 'type', 'Spearman','rows','complete')
 %r = -0.95, 10^-11
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(compensation, delta_mu_lik,0.05,100000)
+% we report CI as the 95% CI
 
 delta_mu_noise = exp(squeeze(params_bm_all(:,4,2)))- exp(squeeze(params_bm_all(:,3,2)))
 [r,p] = corr( compensation, delta_mu_noise, 'type', 'Spearman','rows','complete')
 %r = 0.1073, p = 0.6345
 %[r,p] = corr( compensation_norm, delta_prior_norm, 'type', 'Spearman','rows','complete')
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(compensation, delta_mu_noise,0.05,100000)
 
 delta_mu_k_conf = squeeze(params_bm_all(:,4,3))- squeeze(params_bm_all(:,3,3));
 [r,p] = corr(compensation, delta_mu_k_conf, 'type', 'Spearman','rows','complete')
 %r = 0.03, p =  0.88
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(compensation, delta_mu_k_conf,0.05,100000)
 
 
 %% GLMEs for RT with stim strength and RT with the perceptual certainty |d| - results associated with Figure 5D
@@ -1336,10 +1353,17 @@ tbl_abs_dv.Subject = nominal(tbl_abs_dv.Subject);
 
 lme_abs_stim = fitlme(tbl_abs_stim,'RT ~ 1 + StimStrength+Condition + (1+StimStrength+Condition|Subject)');
 lme_abs_dv = fitlme(tbl_abs_dv,'RT ~ 1 + DecVar+Condition + (1+DecVar+Condition|Subject)');
+
+[lme_abs_stim.Coefficients.Lower(2)/lme_abs_stim.Coefficients.SE(2); lme_abs_stim.Coefficients.Upper(2)/lme_abs_stim.Coefficients.SE(2)]
+lme_abs_stim.Rsquared.adjusted
+
+[lme_abs_dv.Coefficients.Lower(2)/lme_abs_dv.Coefficients.SE(2); lme_abs_dv.Coefficients.Upper(2)/lme_abs_dv.Coefficients.SE(2)]
+lme_abs_dv.Rsquared.adjusted
+
 %%
 % AIC and BIC
 [lme_abs_stim.ModelCriterion.AIC lme_abs_stim.ModelCriterion.BIC;...
-    lme_abs_dv.ModelCriterion.AIC lme_abs_dv.ModelCriterion.BIC]
+ lme_abs_dv.ModelCriterion.AIC lme_abs_dv.ModelCriterion.BIC]
 
 % coefficients and tStat and p values
 [lme_abs_stim.Coefficients(2:end,1) lme_abs_stim.Coefficients(2:end,4)  lme_abs_stim.Coefficients(2:end,6)]
@@ -1513,8 +1537,10 @@ end
 %% conditional response functions - ALL subjects, RT plots everything
 figure(7)
 set(gcf, 'Position', [100 100 700 540])
-guttera_rt = [0.0800    0.0800];
-marginsa_rt =  [0.100    0.0700    0.100    0.1900];
+%guttera_rt = [0.0800    0.0800];
+%marginsa_rt =  [0.100    0.0700    0.100    0.1900];
+guttera_rt = [0.0500    0.0800];
+marginsa_rt =  [0.090    0.0200    0.10    0.1900]; % left right bottom top
 tight_subplot(3,4,1,1, guttera_rt, marginsa_rt)
 for ci = 1: Ncond
     plot( mean(squeeze(binz_posE_rt(:,ci,:)),1), mean(squeeze(prop_cw_rt(:,ci,:)),1),'-', 'Color', colorz(ci,:), 'Linewidth',2); hold on; %'MarkerEdgeColor', colorz(ci,:)
@@ -1524,7 +1550,7 @@ end
 plot(linspace(0,3,20), 0.5*ones(1,20), '--k', 'Linewidth', 1.2); hold on;
 box off
 %xlabel('RT quantile')
-xlabel('Reaction time  (sec)')
+xlabel('reaction time  (s)')
 ylabel('prop resp CW')
 set(gca, 'tickdir', 'out')
 
@@ -1551,7 +1577,8 @@ load('ddm_params_and_model_comp.mat')
 lw = 1.5;
 fontsz = 12;
 pars_scatter = 0.15;
-mszi = 2;
+%mszi = 2;
+mszi = 1;
 
 AIC_full = sum(AIC_all_ddm,3);
 BIC_full = sum(BIC_all_ddm,3);
@@ -1750,7 +1777,7 @@ set(gca, 'tickdir', 'out')
 set(gca, 'FontSize', fontsz)
 set(gca, 'ticklength',[tlen1 tlen2])
 ylabel('reaction times (s)')
-xlabel('test stimulus speed clockwise (a.u.)', 'FontName', 'Helvetica', 'FontSize', fontsz)
+xlabel('test stimulus speed clockwise (arb. units)', 'FontName', 'Helvetica', 'FontSize', fontsz)
 %end
 
 mi = 2;
@@ -1782,7 +1809,7 @@ for pi = 1:4
 end
 
 
-psname = 'RT_plot_all.pdf'
+psname = 'RT_plot_allEE.pdf'
 %print_pdf(psname)
 
 %% psychometric curves divided into high conf and low conf
@@ -1905,9 +1932,26 @@ diff_in_starting_point = squeeze(params_ddm(2,:,4,4))-squeeze(params_ddm(2,:,3,4
 diff_in_sigma_encoding = params_bm_allV(:,4,2)- params_bm_allV(:,3,2)
 diff_in_mean_drift_rate = squeeze(params_ddm(2,:,4,1))-squeeze(params_ddm(2,:,3,1))
 
+diff_in_nondec_time = squeeze(params_ddm(2,:,4,3))-squeeze(params_ddm(2,:,3,3))
+diff_in_dec_bound = squeeze(params_ddm(2,:,4,2))-squeeze(params_ddm(2,:,3,2))
+
 [r,p]= corr(diff_in_starting_point', diff_in_mu_likelihood, 'type', 'Spearman')
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(diff_in_starting_point', diff_in_mu_likelihood,0.05,100000)
+
 
 [r,p]= corr(diff_in_mean_drift_rate', diff_in_sigma_encoding, 'type', 'Spearman')
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(diff_in_mean_drift_rate', diff_in_sigma_encoding,0.05,100000)
 
 
 [r,p]= corr(diff_in_starting_point', compensation, 'type', 'Spearman')
+[effectSize,pValue,CI,bootstrapCI] = BCa_CI_Sp(diff_in_starting_point', compensation,0.05,100000)
+
+[r,p]= corr(diff_in_mean_drift_rate', compensation,'type', 'Spearman')
+[r,p]= corr(diff_in_nondec_time', compensation,'type', 'Spearman')
+[r,p]= corr(diff_in_dec_bound', compensation,'type', 'Spearman')
+
+[r,p]= corr(diff_in_mean_drift_rate', diff_in_mu_likelihood,'type', 'Spearman')
+[r,p]= corr(diff_in_nondec_time', diff_in_mu_likelihood,'type', 'Spearman')
+[r,p]= corr(diff_in_dec_bound', diff_in_mu_likelihood,'type', 'Spearman')
+
+
