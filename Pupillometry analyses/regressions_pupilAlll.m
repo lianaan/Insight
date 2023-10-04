@@ -383,12 +383,12 @@ for si = 1: Nsubj
     pupil_all_sjE = squeeze(pupil_all_post_resp_SAVED(si,:,:));
     subj_averageE(si) = nanmean(pupil_all_sjE(:));
     for ci = 1:Ncond
-        % adjustment of error bars as in Cousineau 2005
+        
         
         %pupil_all_post_stim(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_stim_SAVED(si,ci,:))', nanmean(squeeze(pupil_all_post_stim(si,ci,:)))) + nanmean(squeeze(pupil_all_post_stim(:,ci,:)));
         
         pupil_all_post_resp(si,ci,:) = bsxfun(@minus, squeeze(pupil_all_post_resp_SAVED(si,ci,:))', subj_averageE(si)) + grand_averageE;
-       
+        
     end
 end
 
@@ -425,8 +425,8 @@ clear vals; clear group; clear y;
 vals = [];
 
 for ji = 1:nbinz
-    %vals = [vals; squeeze(pupil_all_post_stim_SAVED(:,3,ji)); squeeze(pupil_all_post_stim_SAVED(:,4,ji))];
-    vals = [vals; squeeze(pupil_all_post_resp_SAVED(:,3,ji)); squeeze(pupil_all_post_resp_SAVED(:,4,ji))];% Adapt-See vs Adapt-Believe
+    vals = [vals; squeeze(pupil_all_post_stim_SAVED(:,3,ji)); squeeze(pupil_all_post_stim_SAVED(:,4,ji))];
+    %vals = [vals; squeeze(pupil_all_post_resp_SAVED(:,3,ji)); squeeze(pupil_all_post_resp_SAVED(:,4,ji))];% Adapt-See vs Adapt-Believe
 end
 
 Subjects = repmat([1:Nsubj],1,2*nbinz);%[[1:Nsubj] [1:Nsubj]];
@@ -441,10 +441,10 @@ y = vals;
 g1 = group(:,1);
 g2 = group(:,2);
 
-[p,table,stats] = anovan(y,{g1,g2, Subjects}, 'random',3,'varnames', {'Evidence', 'Adapt_See_Vs_Adapt_Bel', 'Subject'});
+%[p,table_anova,stats] = anovan(y,{g1,g2, Subjects}, 'random',3,'varnames', {'Evidence', 'Adapt_See_Vs_Adapt_Bel', 'Subject'});
 [p_full,table_full,stats_full] = anovan(y,{g1,g2, Subjects}, 'random',3,'varnames', {'Evidence',  'Adapt_See_Vs_Adapt_Bel', 'Subject'}, 'model', 'full');
 
-[p,table,stats] = anovan(y,{g1,g2}, 'random',2,'varnames', {'Evidence', 'Adapt_See_Vs_Adapt_Bel'}, 'model', 'full');
+%[p,table_anova,stats] = anovan(y,{g1,g2}, 'random',2,'varnames', {'Evidence', 'Adapt_See_Vs_Adapt_Bel'}, 'model', 'full');
 %%
 
 varNames = cell(2*nbinz,1);
@@ -559,6 +559,7 @@ color_black_shade = (color_black + 2*repmat([254 254 254], 1, 1)/255)/3;
 color_purple = colorz(4,:);
 color_purple_shade = (color_purple + 2*repmat([254 254 254], 1, 1)/255)/3;
 p_thresh = 0.01;
+%p_thresh = 0.001;
 
 tight_subplot(4,7, 3,[1 2 3 4], guttera, marginsa)
 Npts_fill = 100;
@@ -813,8 +814,10 @@ psname = 'Fig6_pupil_ALL.pdf';
 
 
 %% Pupil models
+%clear table
 %fitlme
 % pupil_post_stim ---> Nsubj*4*121
+
 %pupil_valz = pupil_post_stim;
 pupil_valz = pupil_post_resp;
 
@@ -847,7 +850,7 @@ end
 [~, ~, pupils_for_lme_ranking] = unique(pupils_for_lme);
 [~, ~, rt_for_lme_ranking] = unique(rt_for_lme);
 
-
+%%
 tbl_abs_stim = table(stim_strength_for_lme_ranking,pupils_for_lme_ranking,cond_for_lme, subject_for_lme,'VariableNames',{'StimStrength','PupilArea','Condition', 'Subject'});
 tbl_abs_stim.Condition = nominal(tbl_abs_stim.Condition);
 tbl_abs_stim.Subject = nominal(tbl_abs_stim.Subject);
@@ -869,6 +872,17 @@ lme_abs_stim = fitlme(tbl_abs_stim,'PupilArea ~ 1 + StimStrength+Condition + (1+
 lme_abs_dv = fitlme(tbl_abs_dv,'PupilArea ~ 1 + DecVar+Condition + (1+DecVar+Condition|Subject)');
 lme_abs_rt = fitlme(tbl_abs_rt,'PupilArea ~ 1 + RT+Condition + (1+RT+Condition|Subject)');
 lme_abs_rt_dv = fitlme(tbl_abs_rt_dv,'PupilArea ~ 1 + RT + DecVar + Condition + (1+RT+DecVar+Condition|Subject)');
+
+%t statistics associated with DecVar:
+%lme_abs_dv.Coefficients.Estimate(2)/lme_abs_dv.Coefficients.tStat(2) = lme_abs_dv.Coefficients.SE(2)
+%thus, to get the tstat : lme_abs_dv.Coefficients.Estimate(2)/lme_abs_dv.Coefficients.SE(2)
+% since the Upper and Lower are reported relative to the Estimate -thus
+% report 95% CI as:
+[lme_abs_dv.Coefficients.Lower(2)/lme_abs_dv.Coefficients.SE(2), lme_abs_dv.Coefficients.Upper(2)/lme_abs_dv.Coefficients.SE(2)]
+lme_abs_dv.Rsquared.Adjusted
+lme_abs_stim.Rsquared.Adjusted
+
+[lme_abs_rt_dv.Coefficients.Lower(3)/lme_abs_rt_dv.Coefficients.SE(3), lme_abs_rt_dv.Coefficients.Upper(3)/lme_abs_rt_dv.Coefficients.SE(3)]
 
 
 %% only Adapt conditions
@@ -927,4 +941,8 @@ lme_abs_dv = fitlme(tbl_abs_dv,'PupilArea ~ 1 + DecVar+Condition + (1+DecVar+Con
 lme_abs_rt = fitlme(tbl_abs_rt,'PupilArea ~ 1 + RT+Condition + (1+RT+Condition|Subject)');
 lme_abs_rt_dv = fitlme(tbl_abs_rt_dv,'PupilArea ~ 1 + RT + DecVar + Condition + (1+RT+DecVar+Condition|Subject)');
 
+[lme_abs_dv.Coefficients.Lower(2)/lme_abs_dv.Coefficients.SE(2), lme_abs_dv.Coefficients.Upper(2)/lme_abs_dv.Coefficients.SE(2)]
+lme_abs_dv.Rsquared.Adjusted
+[lme_abs_rt_dv.Coefficients.Lower(3)/lme_abs_rt_dv.Coefficients.SE(3), lme_abs_rt_dv.Coefficients.Upper(3)/lme_abs_rt_dv.Coefficients.SE(3)]
+lme_abs_rt_dv.Rsquared.Adjusted
 
