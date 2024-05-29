@@ -32,7 +32,7 @@ All analyses were performed on the `alldata` structs. For each subject and condi
 
 - stims: uniformly distributed on [-0.3, 0.3]
 - resp: 0 (left/CCW) or 1 (right/CW)
-- conf: 0 for high confidence, 1 for low confidence 
+- conf: 0 for low confidence, 1 for high confidence 
 - resp_times (sec)
 - conf_times (sec)
 
